@@ -1,5 +1,12 @@
 # Always needed
-PRODUCT_COPY_FILES += $(call gapps-copy-to-system,all,framework)
+gapps_framework_files := $(call gapps-copy-to-system,all,framework)
+
+# Remove old google camera framework
+gapps_framework_files := $(filter-out %com.google.android.camera.experimental2015.jar,$(gapps_framework_files))
+gapps_framework_files := $(filter-out %com.google.android.camera.experimental2016.jar,$(gapps_framework_files))
+gapps_framework_files := $(filter-out %com.google.android.camera.experimental2017.jar,$(gapps_framework_files))
+
+PRODUCT_COPY_FILES += $(gapps_framework_files)
 
 GAPPS_NEXUS_CODENAMES += \
     full_maguro \
@@ -39,6 +46,11 @@ endif
 # This is included as part of GoogleDialer build, for devices that have the
 # GoogleDialer
 gapps_etc_files := $(filter-out %sysconfig/dialer_experience.xml,$(gapps_etc_files))
+
+# Remove old google camera permissions
+gapps_etc_files := $(filter-out %etc/permissions/com.google.android.camera.experimental2015.xml,$(gapps_etc_files))
+gapps_etc_files := $(filter-out %etc/permissions/com.google.android.camera.experimental2016.xml,$(gapps_etc_files))
+gapps_etc_files := $(filter-out %etc/permissions/com.google.android.camera.experimental2017.xml,$(gapps_etc_files))
 
 PRODUCT_COPY_FILES += $(gapps_etc_files)
 
