@@ -1,3 +1,14 @@
+
+ifeq ($(TARGET_GAPPS_ARCH),)
+$(error "GAPPS: TARGET_GAPPS_ARCH is undefined")
+endif
+
+ifneq ($(TARGET_GAPPS_ARCH),arm)
+ifneq ($(TARGET_GAPPS_ARCH),arm64)
+$(error "GAPPS: Only arm and arm64 are allowed")
+endif
+endif
+
 # Opengapps AOSP build system
 GAPPS_BUILD_SYSTEM_PATH := vendor/opengapps/build/core
 GAPPS_SOURCES_PATH := vendor/opengapps/sources

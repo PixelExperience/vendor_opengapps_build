@@ -24,17 +24,17 @@ endif
 LOCAL_SRC_FILES := $(call find-apk-for-pkg,all,$(LOCAL_PACKAGE_NAME))
 
 ifdef LOCAL_SRC_FILES
-  LOCAL_PREBUILT_JNI_LIBS := $(call find-libs-in-apk,$(TARGET_ARCH),$(LOCAL_SRC_FILES))
+  LOCAL_PREBUILT_JNI_LIBS := $(call find-libs-in-apk,$(TARGET_GAPPS_ARCH),$(LOCAL_SRC_FILES))
 else
-  LOCAL_SRC_FILES := $(call find-apk-for-pkg,$(TARGET_ARCH),$(LOCAL_PACKAGE_NAME))
+  LOCAL_SRC_FILES := $(call find-apk-for-pkg,$(TARGET_GAPPS_ARCH),$(LOCAL_PACKAGE_NAME))
   ifdef LOCAL_SRC_FILES
     ifeq ($(filter 21,$(call get-allowed-api-levels)),)
       # only kitkat
-      ifneq ($(call find-libs-in-apk,$(TARGET_ARCH),$(LOCAL_SRC_FILES)),)
-        LOCAL_SHARED_LIBRARIES := $(notdir $(basename $(shell zipinfo -1 "$(LOCAL_SRC_FILES)" "$(call get-lib-search-path, $(TARGET_ARCH))" -x lib/*/crazy/* 2>/dev/null)))
+      ifneq ($(call find-libs-in-apk,$(TARGET_GAPPS_ARCH),$(LOCAL_SRC_FILES)),)
+        LOCAL_SHARED_LIBRARIES := $(notdir $(basename $(shell zipinfo -1 "$(LOCAL_SRC_FILES)" "$(call get-lib-search-path, $(TARGET_GAPPS_ARCH))" -x lib/*/crazy/* 2>/dev/null)))
       endif
     else
-      LOCAL_PREBUILT_JNI_LIBS_$(TARGET_ARCH) := $(call find-libs-in-apk,$(TARGET_ARCH),$(LOCAL_SRC_FILES))
+      LOCAL_PREBUILT_JNI_LIBS_$(TARGET_GAPPS_ARCH) := $(call find-libs-in-apk,$(TARGET_GAPPS_ARCH),$(LOCAL_SRC_FILES))
     endif
   else
     ifdef TARGET_2ND_ARCH
@@ -63,8 +63,8 @@ include $(BUILD_PREBUILT)
 # generate mk file of shared library for kitkat
 ifdef LOCAL_SRC_FILES
   ifeq ($(filter 21,$(call get-allowed-api-levels)),)
-    ifneq ($(call find-libs-in-apk,$(TARGET_ARCH),$(LOCAL_SRC_FILES)),)
-      $(shell unzip -qqq -j -o "$(LOCAL_SRC_FILES)" "$(call get-lib-search-path, $(TARGET_ARCH))" -x lib/*/crazy/* -d "$(GAPPS_SOURCES_PATH)"/$(TARGET_ARCH)/lib/19/lib_from_app 2>/dev/null)
+    ifneq ($(call find-libs-in-apk,$(TARGET_GAPPS_ARCH),$(LOCAL_SRC_FILES)),)
+      $(shell unzip -qqq -j -o "$(LOCAL_SRC_FILES)" "$(call get-lib-search-path, $(TARGET_GAPPS_ARCH))" -x lib/*/crazy/* -d "$(GAPPS_SOURCES_PATH)"/$(TARGET_GAPPS_ARCH)/lib/19/lib_from_app 2>/dev/null)
       LIBRARIES :=
       LIBRARIES := $(foreach L, $(LOCAL_SHARED_LIBRARIES), $(join $(LIBRARIES),$L))
       $(shell python "$(GAPPS_BUILD_SYSTEM_PATH)/mk_generator_for_kitkat.py" $(CURRENT_PATH) $(LIBRARIES) 2>/dev/null)

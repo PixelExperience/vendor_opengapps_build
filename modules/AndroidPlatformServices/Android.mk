@@ -1,4 +1,4 @@
-ifneq ($(filter arm64, $(TARGET_ARCH)),)
+ifneq ($(filter arm64, $(TARGET_GAPPS_ARCH)),)
 LOCAL_PATH := .
 include $(CLEAR_VARS)
 include $(GAPPS_CLEAR_VARS)

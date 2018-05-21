@@ -27,10 +27,10 @@ endif # TARGET_2ND_ARCH
 
 full_name := $(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 ifdef TARGET_2ND_ARCH
-  LOCAL_SRC_FILES_64 := $(call gapps-find-lib-for-arch,$(TARGET_ARCH),$(lib_prefix)lib64,$(full_name))
+  LOCAL_SRC_FILES_64 := $(call gapps-find-lib-for-arch,$(TARGET_GAPPS_ARCH),$(lib_prefix)lib64,$(full_name))
   LOCAL_SRC_FILES_32 := $(call gapps-find-lib-for-arch,$(TARGET_2ND_ARCH),$(lib_prefix)lib,$(full_name))
 else
-  LOCAL_SRC_FILES := $(call gapps-find-lib-for-arch,$(TARGET_ARCH),$(lib_prefix)lib,$(full_name))
+  LOCAL_SRC_FILES := $(call gapps-find-lib-for-arch,$(TARGET_GAPPS_ARCH),$(lib_prefix)lib,$(full_name))
   ifeq ($(filter 21,$(call get-allowed-api-levels)),)
     # kitkat only
     ifeq ($(LOCAL_SRC_FILES),$(join $(GAPPS_SOURCES_PATH),/))
