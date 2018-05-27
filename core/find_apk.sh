@@ -11,17 +11,10 @@ getlatestapk() {
 " # We set IFS to newline here so that filenames containing spaces are
   # handled correctly in the for-loops below.
 
-  local LZ_DECOMPRESS_CMD="false"
-  if command -v lunzip > /dev/null; then
-    LZ_DECOMPRESS_CMD="lunzip"
-  elif command -v lzip > /dev/null; then
-    LZ_DECOMPRESS_CMD="lzip --decompress"
-  fi;
-
   # decompress apks
   # some apks are lz compressed to work around github file-size limits.
   for foundapklz in $(find "$1" -iname '*.apk.lz'); do
-    $LZ_DECOMPRESS_CMD --keep "$foundapklz" || echo "Warning: lz decompress command failed for $foundapklz" >&2
+    lunzip --keep "$foundapklz"
   done
 
   # sed copies filename to the beginning, to compare version, and later we remove it with cut
